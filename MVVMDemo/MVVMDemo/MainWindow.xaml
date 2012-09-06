@@ -1,0 +1,94 @@
+﻿<Window x:Class="MVVMDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:MVVMDemo.ViewModel"
+        xmlns:mo="clr-namespace:MVVMDemo.Model"
+        Title="MainWindow" Height="345" Width="370">
+    <Grid Margin="10">
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="boolToVis" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Button Grid.Row="1"
+                Grid.Column="1"
+                Content="Save" 
+                Height="23" 
+                HorizontalAlignment="Stretch" 
+                Margin="10" 
+                Name="btnSave" 
+                VerticalAlignment="Top" 
+                Command="{Binding SaveButtonCommand}"  />
+        <Button Grid.Row="1"
+                Grid.Column="0"
+                Content="New" 
+                Height="23" 
+                HorizontalAlignment="Stretch" 
+                Margin="10" 
+                Name="btnNew" 
+                VerticalAlignment="Top" 
+                Command="{Binding NewButtonCommand}"/>
+        <ListBox Grid.Row="0"
+                 Grid.Column="0"
+                 Grid.ColumnSpan="2"
+                 HorizontalAlignment="Stretch" 
+                 Margin="10" 
+                 Name="listBox1" 
+                 VerticalAlignment="Stretch" 
+                 ItemsSource="{Binding Path=Persons}" >
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="mo:Person">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding FirstName}" />
+                        <TextBlock Text=" " />
+                        <TextBlock Text="{Binding LastName}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBox Grid.Row="2"
+                 Grid.Column="1"
+                 Height="Auto" 
+                 HorizontalAlignment="Stretch" 
+                 Margin="10" 
+                 Name="txtFirstName" 
+                 VerticalAlignment="Top" 
+                 Visibility="{Binding Path=FirstNameVisibility, Converter={StaticResource boolToVis},NotifyOnSourceUpdated=true}"
+                 Text="{Binding Path=FirstName, Mode=TwoWay}"/>
+        <TextBox Grid.Row="3"
+                 Grid.Column="1"
+                 Height="Auto" 
+                 HorizontalAlignment="Stretch" 
+                 Margin="10" 
+                 Name="txtLastName" 
+                 VerticalAlignment="Top" 
+                 Visibility="{Binding Path=LastNameVisibility, Converter ={StaticResource boolToVis}}"
+                 Text="{Binding Path=LastName, Mode=TwoWay}"/>
+        <Label Grid.Row="2"
+               Grid.Column="0"
+               Content="First Name" 
+               Height="Auto" 
+               HorizontalAlignment="Right" 
+               Margin="10" 
+               Name="label1" 
+               VerticalAlignment="Top"
+               Visibility="{Binding Path=FirstNameVisibility, Converter={StaticResource boolToVis}}"/>
+        <Label Grid.Row="3"
+               Grid.Column="0"
+               Content="Last Name" 
+               Height="Auto" 
+               HorizontalAlignment="Right" 
+               Margin="10" 
+               Name="label2" 
+               VerticalAlignment="Bottom" 
+               Visibility="{Binding Path=LastNameVisibility, Converter={StaticResource boolToVis}}"/>
+    </Grid>
+</Window>
